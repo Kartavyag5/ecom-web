@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/ProductCard.jsx", "components/Navbar.jsx", "pages/api/products/index.jsx", "pages/api/products/[category].jsx"],
   "exclude": ["node_modules"]
 }
