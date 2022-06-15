@@ -1,9 +1,10 @@
-import type { NextPage } from 'next'
 import styles from '../styles/Home.module.css'
 import CategoryCard from '../components/CategoryCard'
+import {addItem} from '../redux/item.slice';
+import { useSelector, useDispatch } from 'react-redux';
 
+const Home = () => {
 
-const Home: NextPage = () => {
   return (
     <main className={styles.container}>
       <div className={styles.small}>
