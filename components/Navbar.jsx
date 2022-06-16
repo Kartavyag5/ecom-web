@@ -22,7 +22,7 @@ const Navbar = () =>{
                     <Link href={"/shop"}>Shop</Link>
                 </li>
                 <li className={styles.navlink}>
-                    <Link href={"/cart"}><p>Cart ({getItemsCount()})</p></Link>
+                    <Link href={"/cart"}><p className={styles.navlink}>Cart ({getItemsCount()})</p></Link>
                 </li>
             </ul>
         </nav>
