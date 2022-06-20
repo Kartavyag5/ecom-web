@@ -2,9 +2,17 @@ import Image from 'next/image';
 import styles from '../styles/ProductCard.module.css'
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../redux/cart.slice';
+import { useEffect, useState } from 'react';
 
 const ProductCard = ({product})=>{
     const dispatch = useDispatch();
+    const [loggedUser, setLoggedUser] =  useState({});
+
+    useEffect(()=>{
+        const user = localStorage.getItem('loggedUserInfo');
+        setLoggedUser(JSON.parse(user))
+    },[])
+
     return(
         <div className={styles}>
             <Image className={styles.image} src={product.image} height={300} width={220} alt="card Image" />
@@ -13,7 +21,7 @@ const ProductCard = ({product})=>{
             <p>$ {product.price}</p>
             <button 
                 className={styles.button}
-                onClick = {()=> dispatch(addToCart(product))}
+                onClick = {()=> loggedUser ? dispatch(addToCart(product)): alert("login First, then you can add items in cart")}
             >
             Add to Cart
             </button> 

@@ -8,6 +8,7 @@ const cartSlice = createSlice({
             const itemExists = state.find((item)=> item.id === action.payload.id);
             if(itemExists){
                 itemExists.quantity++;
+                alert("item quantity increase!!")
             }else{
                 state.push({...action.payload, quantity:1});
                 alert("item Added to Cart!!")

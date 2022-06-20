@@ -2,14 +2,28 @@ import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from '../styles/CartPage.module.css';
 import { incrementQuantity, decrementQuantity, removeFromCart } from '../redux/cart.slice';
+import { 
+  PlusCircleOutlined,
+  MinusCircleOutlined,
+  CloseCircleOutlined 
+} from '@ant-design/icons';
+import 'antd/dist/antd.css';
+import { useState } from 'react';
+
 
 const CartPage = ()=>{
   const cart = useSelector((state)=>state.cart);
   const dispatch = useDispatch();
+  const [loggedUser, setLoggedUser] = useState({});
 
   const getTotalPrice = () =>{
     return cart.reduce((accumulator, item) => accumulator + item.quantity * item.price, 0);
   };
+
+  const getLoggedUser = ()=>{
+    const loggedUser = localStorage.getItem('loggedUserInfo');
+    loggedUser && setLoggedUser(JSON.parse(loggedUser))
+  }
   
   return(
     <div className={styles.container}>

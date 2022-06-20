@@ -16,7 +16,6 @@ const ItemForm = () => {
   }
 
   const onFinish = (values) => {
-    // values = {...values, id:Math.random()}
     axios.post("http://localhost:3000/products", values).then((response) => {
     });
     dispatch(addItem(values));

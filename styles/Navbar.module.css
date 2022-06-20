@@ -2,7 +2,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2rem;
+    padding: 1rem;
+    position:sticky;
+    top: 0px;
+    background:aqua;
+    z-index: 3;
 }
 
 .logo{
@@ -12,6 +16,7 @@
 }
 
 .links{
+    list-style: none;
     display: flex;
 }
 
@@ -19,6 +24,8 @@
     list-style:none;
     margin: 0 0.75rem;
     text-transform: uppercase;
+    list-style: none;
+    text-decoration: none;
 }
 
 .navlink a{
@@ -27,5 +34,23 @@
 }
 .navlink a:hover{
     color: #f9826c;
+    cursor: pointer;
+    font-weight: 600;
 }
+.navlink:hover{
+    font-weight: 600;   
+    color: #f9826c;
+}
+
+.navlinkActive {
+    list-style:none;
+    margin: 0 0.75rem;
+    text-transform: uppercase;
+    list-style: none;
+    text-decoration: none;
+    background: white;
+    font-weight: 600;
+    font-size: large;
+    box-shadow: 0px 0px 4px 0px;
+    }
 
