@@ -4,20 +4,31 @@ import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { redirect } from '../common/common-methods'
 import { useRouter } from 'next/router';
+import Logo from '../public/logo.png';
+import Image from 'next/image';
 
 
 const Navbar = () =>{
     const router = useRouter()
     const [loggedUser, setLoggedUser] = useState({});
-    const cart = useSelector((state)=>state.cart);
+    const [userCart, setUserCart] = useState([]);
+    const cart = useSelector((state)=>state.cart.carts);
+
+    useEffect(() => {
+        getUserCart(cart);
+    }, [cart])
     
     const getItemsCount = ()=>{
-        return cart.reduce((accumulator, item)=> accumulator + item.quantity, 0);
+        return userCart.reduce((accumulator, item)=> accumulator + item.quantity, 0);
     };
 
-    const getLoggedUser = () => {
-        const user = localStorage.getItem("loggedUserInfo");
-        setLoggedUser(JSON.parse(user));
+    const getUserCart = (cartItems)=>{
+        console.log('myyyyy', cart)
+        const logUser = JSON.parse(localStorage.getItem("loggedUserInfo"))
+        setLoggedUser(logUser)
+        const userCart2 = cartItems.find((item)=>item.user_id === logUser.id);
+        console.log('eeee', userCart2)
+        setUserCart(userCart2?.products);
     }
 
     const logout = () => {
@@ -25,21 +36,14 @@ const Navbar = () =>{
         setLoggedUser({});
         alert('successfully logout');
         redirect('login');
-
     }
 
-    useEffect(()=>{
-        getLoggedUser();
-        // console.log("windows.location.href", String(window.location.href).split("/")[3]);
-    }
-    ,[])
-
-    console.log('wwwwww', router.route.slice(1))
-    return (
+        return (
         <nav className={styles.navbar}>
-            <h6 className={styles.logo}>
-                GamesKart
-            </h6>
+            <div className={styles.logodiv}>
+                <Image className={styles.logo} src={Logo} alt={'logo'} />
+            </div>
+            
             <ul className={styles.links}>
                 <li className={router.route === '/' ? styles.navlinkActive : styles.navlink}>
                     <Link href={"/"}>Home</Link>
@@ -57,7 +61,7 @@ const Navbar = () =>{
                 <li className={router.route === '/cart' ? styles.navlinkActive : styles.navlink}>
                     {loggedUser && 
                     <Link href={"/cart"}>
-                        Cart
+                        Cart 
                     </Link>
                     }
                     {loggedUser && `(${getItemsCount()})`}

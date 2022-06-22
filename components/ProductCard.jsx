@@ -6,13 +6,13 @@ import { useEffect, useState } from 'react';
 
 const ProductCard = ({product})=>{
     const dispatch = useDispatch();
-    const [loggedUser, setLoggedUser] =  useState({});
+    const [loggedUser, setLoggedUser] = useState({});
 
     useEffect(()=>{
         const user = localStorage.getItem('loggedUserInfo');
         setLoggedUser(JSON.parse(user))
     },[])
-
+    
     return(
         <div className={styles}>
             <Image className={styles.image} src={product.image} height={300} width={220} alt="card Image" />
@@ -21,7 +21,7 @@ const ProductCard = ({product})=>{
             <p>$ {product.price}</p>
             <button 
                 className={styles.button}
-                onClick = {()=> loggedUser ? dispatch(addToCart(product)): alert("login First, then you can add items in cart")}
+                onClick = {()=> loggedUser ? dispatch(addToCart({user_id:loggedUser.id, product})): alert("login First, then you can add items in cart")}
             >
             Add to Cart
             </button> 

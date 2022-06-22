@@ -1,30 +1,47 @@
 import Image from 'next/image';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from '../styles/CartPage.module.css';
-import { incrementQuantity, decrementQuantity, removeFromCart } from '../redux/cart.slice';
+import { incrementQuantity, decrementQuantity, removeFromCart, setAllCarts, getUserCart } from '../redux/cart.slice';
 import { 
   PlusCircleOutlined,
   MinusCircleOutlined,
   CloseCircleOutlined 
 } from '@ant-design/icons';
 import 'antd/dist/antd.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 
-const CartPage = ()=>{
-  const cart = useSelector((state)=>state.cart);
+
+const CartPage = ({carts})=>{
+  const cart = useSelector((state)=>state.cart.carts);
   const dispatch = useDispatch();
   const [loggedUser, setLoggedUser] = useState({});
+  const [userCart, setUserCart] = useState({});
 
-  const getTotalPrice = () =>{
-    return cart.reduce((accumulator, item) => accumulator + item.quantity * item.price, 0);
-  };
+  // const getTotalPrice = () =>{
+  //   return userCart.products.reduce((accumulator, item) => accumulator + item.quantity * item.price, 0);
+  // };
 
   const getLoggedUser = ()=>{
-    const loggedUser = localStorage.getItem('loggedUserInfo');
-    loggedUser && setLoggedUser(JSON.parse(loggedUser))
+    const loggedUser2 = localStorage.getItem('loggedUserInfo');
+    loggedUser2 && setLoggedUser(JSON.parse(loggedUser2))
   }
-  
+  const allProducts = useSelector((state)=> state.items.products);
+  // const cartProducts = allProducts.map((item)=>userCart.products.some((item2)=>item2.product_id === item.id))
+
+  const getUserCart = ()=>{
+    const userCart2 = cart.find((item)=>item.user_id === loggedUser.id);
+    setUserCart(userCart2);
+ }
+
+  useEffect(()=>{
+    getLoggedUser();
+    getUserCart();
+    console.log("userCart", userCart);
+    dispatch(setAllCarts(carts));
+  },[])
+
   return(
     <div className={styles.container}>
       {cart.length === 0 ? (
@@ -42,7 +59,7 @@ const CartPage = ()=>{
           {cart.map((item)=>(
             <div key={item.id} className = {styles.body}>
               <div className={styles.image}>
-                <Image src= {item.image} height={"90"} width={"65"} alt="Cart-image"/>
+                {/* <Image src= {item.image} height={"90"} width={"65"} alt="Cart-image"/> */}
               </div>
               <p>{item.product}</p>
               <p>$ {item.price}</p>
@@ -61,7 +78,7 @@ const CartPage = ()=>{
               <p>$ {item.quantity * item.price}</p>
             </div>
           ))}
-          <h2>Grand Total: $ {getTotalPrice()}</h2>
+          {/* <h2>Grand Total: $ {getTotalPrice()}</h2> */}
         </>
       )}
     </div>
@@ -69,3 +86,9 @@ const CartPage = ()=>{
 };
 
 export default CartPage;
+
+export async function getStaticProps(){
+  const res = await axios.get('http://localhost:3000/carts');
+  const carts = res.data
+  return {props: {carts}};
+}

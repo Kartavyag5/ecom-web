@@ -2,18 +2,33 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
+    /* padding: 1rem; */
     position:sticky;
     top: 0px;
     background:aqua;
     z-index: 3;
 }
 
-.logo{
-    font-size: 1.2rem;
-    font-weight: 600;
-    text-transform: uppercase;
+.logodiv{
+    margin-left: 10px;
+    height: 80%;
+    width:80px;
+
 }
+
+.logodiv2{
+    height: 50%;
+    width: 150px;
+
+}
+
+.logo{
+    height: 100%;
+    width:100%;
+   }
+.logo3{
+    width:50%;
+   }
 
 .links{
     list-style: none;
@@ -52,5 +67,6 @@
     font-weight: 600;
     font-size: large;
     box-shadow: 0px 0px 4px 0px;
+    border-radius: 2px;
     }
 
