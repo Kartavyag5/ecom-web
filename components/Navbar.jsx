@@ -13,21 +13,22 @@ const Navbar = () =>{
     const [loggedUser, setLoggedUser] = useState({});
     const [userCart, setUserCart] = useState([]);
     const cart = useSelector((state)=>state.cart.carts);
+    const user_cart = useSelector((state)=>state.cart.userCart);
 
     useEffect(() => {
         getUserCart(cart);
+        console.log("user_cart",user_cart);
+
     }, [cart])
     
     const getItemsCount = ()=>{
-        return userCart.reduce((accumulator, item)=> accumulator + item.quantity, 0);
+        return user_cart.reduce((accumulator, item)=> accumulator + item.quantity, 0);
     };
 
     const getUserCart = (cartItems)=>{
-        console.log('myyyyy', cart)
         const logUser = JSON.parse(localStorage.getItem("loggedUserInfo"))
         setLoggedUser(logUser)
-        const userCart2 = cartItems.find((item)=>item.user_id === logUser.id);
-        console.log('eeee', userCart2)
+        const userCart2 = cartItems.find((item)=>item.user_id === logUser?.id);
         setUserCart(userCart2?.products);
     }
 

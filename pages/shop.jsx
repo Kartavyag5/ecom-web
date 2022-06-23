@@ -12,23 +12,28 @@ const ShopPage = ({products,carts})=>{
     const dispatch = useDispatch()
     const [user, setUser] = useState({});
     const [userCart, setUserCart] = useState({});
+    const user_cart = useSelector((state)=>state.cart.userCart)
     
     useEffect(() => {
+        console.log("user_cart",user_cart);
         const user1 = localStorage.getItem("loggedUserInfo");
         setUser(JSON.parse(user1));
         dispatch(getItems(products));
         dispatch(setAllCarts(carts));
+        const loggedUserCartId = loggedUserCart.products.map(item => item.product_id)
+        const cP = products.filter(product => loggedUserCartId.includes(product.id))
+        const newCP = cP.map(i => {
+        const q = loggedUserCart.products.find(c => c.product_id === i.id)
+        return {...i, quantity: q.quantity}
+    })
         // console.log("carts",carts);
+        // setUserCart(JSON.parse(localStorage.getItem("userCart")))
     }, [])
     const productsData = useSelector((state) => state.items.products)
     const cartData = useSelector((state)=> state.cart.carts)
-    console.log('dddddd', cartData)
+    const loggedUserCart = cartData.find(item => item.user_id === user.id)
 
-    const getUserCart = ()=>{
-       const userCart2 = cartData.find((item)=>item.user_id === user.id);
-       setUserCart(userCart2);
-    }
-    
+    console.log('shop user Cart', userCart)
     return (
         <div className={styles.container}>
             <div>
