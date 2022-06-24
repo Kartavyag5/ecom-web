@@ -17,54 +17,28 @@ const CartPage = ({carts, products})=>{
   const cart = useSelector((state)=>state.cart.carts);
   const dispatch = useDispatch();
   const [loggedUser, setLoggedUser] = useState({});
-  const [userCart, setUserCart2] = useState({});
+  const [userCart, setUserCart] = useState({});
   const [cartProducts, setCartProducts] = useState([])
 
-  const allProducts = useSelector((state)=> state.items.products);
   
   const getTotalPrice = () =>{
-    return cartProducts.reduce((accumulator, item) => accumulator + item.quantity * item.price, 0);
+    return userCart?.products?.reduce((accumulator, item) => accumulator + item.quantity * item.price, 0);
   };
 
   const user_cart = useSelector((state)=>state.cart.userCart)
 
-  // const getLoggedUser = ()=>{
-  //   const loggedUser2 = localStorage.getItem('loggedUserInfo');
-  //   loggedUser2 && setLoggedUser(JSON.parse(loggedUser2))
-  // }
-
-  // const getUserCart = ()=>{
-  //   const userCart2 = cart.find((item)=>item.user_id === loggedUser.id);
-  //   setUserCart(userCart2);
-  // }
-
   useEffect(()=>{
     const loggedInUser = JSON.parse(localStorage.getItem('loggedUserInfo'))
-    const loggedUserCart = carts.find(item => item.user_id === loggedInUser.id)
+    const local_userCart = JSON.parse(localStorage.getItem('userCart'))
+    // const loggedUserCart = carts.find(item => item.user_id === loggedInUser.id)
     setLoggedUser(loggedInUser)
-    setUserCart2(loggedUserCart)
-    
-    // getLoggedUser();
-    // getUserCart();
+    setUserCart(local_userCart)
     dispatch(setAllCarts(carts));
-    const loggedUserCartId = loggedUserCart.products.map(item => item.product_id)
-    const cP = products.filter(product => loggedUserCartId.includes(product.id))
-    const newCP = cP.map(i => {
-      const q = loggedUserCart.products.find(c => c.product_id === i.id)
-      return {...i, quantity: q.quantity}
-    })
-    setCartProducts(newCP)
-    dispatch(setUserCart(newCP));
-    localStorage.setItem('userCart', JSON.stringify(newCP))
   },[dispatch, carts, products])
-
-  console.log('loggedUser::', loggedUser)
-  console.log('userCart::', userCart)
-  console.log('cartProducts::', cartProducts)
 
   return(
     <div className={styles.container}>
-      {cart.length === 0 ? (
+      {!user_cart ? (
         <h1>Your Cart is Empty!!</h1>  
       ):(
         <>
@@ -76,7 +50,7 @@ const CartPage = ({carts, products})=>{
             <div>Actions</div>
             <div>Total Price</div>
           </div>
-          {cartProducts.map((item)=>(
+          {userCart?.products?.map((item)=>(
             <div key={item.id} className = {styles.body}>
               <div className={styles.image}>
                 <Image src= {item.image} height={"90"} width={"65"} alt="Cart-image"/>

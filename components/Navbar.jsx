@@ -14,22 +14,22 @@ const Navbar = () =>{
     const [userCart, setUserCart] = useState([]);
     const cart = useSelector((state)=>state.cart.carts);
     const user_cart = useSelector((state)=>state.cart.userCart);
+    console.log("user_cart",user_cart);
 
     useEffect(() => {
         getUserCart(cart);
-        console.log("user_cart",user_cart);
 
-    }, [cart])
+    }, [cart,user_cart])
     
     const getItemsCount = ()=>{
-        return user_cart.reduce((accumulator, item)=> accumulator + item.quantity, 0);
+        return userCart?.products?.reduce((accumulator, item)=> accumulator + item.quantity, 0);
     };
 
     const getUserCart = (cartItems)=>{
         const logUser = JSON.parse(localStorage.getItem("loggedUserInfo"))
         setLoggedUser(logUser)
         const userCart2 = cartItems.find((item)=>item.user_id === logUser?.id);
-        setUserCart(userCart2?.products);
+        setUserCart(JSON.parse(localStorage.getItem("userCart")));
     }
 
     const logout = () => {
