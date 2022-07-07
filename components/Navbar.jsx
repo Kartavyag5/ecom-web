@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import styles from '../styles/Navbar.module.css';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { redirect } from '../common/common-methods'
 import { useRouter } from 'next/router';
@@ -8,11 +8,13 @@ import Logo from '../public/logo.png';
 import Image from 'next/image';
 import { Input } from 'antd';
 import 'antd/dist/antd.css';
+import { setSearchValue } from '../redux/item.slice';
 
 
 
 const Navbar = () =>{
     const router = useRouter()
+    const dispatch = useDispatch()
     const [loggedUser, setLoggedUser] = useState({});
     const [userCart, setUserCart] = useState([]);
     const cart = useSelector((state)=>state.cart.carts);
@@ -40,7 +42,11 @@ const Navbar = () =>{
         redirect('login');
     }
 
-    const onSearch = (value) => console.log(value);
+    const onSearch = (value) => {
+        console.log(value);
+        dispatch(setSearchValue(value));
+
+    }
 
     const {Search} = Input;
 
@@ -56,6 +62,7 @@ const Navbar = () =>{
                 enterButton="Search"
                 size="large"
                 onSearch={onSearch}
+                onChange={onSearch}
             />
             </div>
             
