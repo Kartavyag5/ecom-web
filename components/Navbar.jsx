@@ -6,6 +6,9 @@ import { redirect } from '../common/common-methods'
 import { useRouter } from 'next/router';
 import Logo from '../public/logo.png';
 import Image from 'next/image';
+import { Input } from 'antd';
+import 'antd/dist/antd.css';
+
 
 
 const Navbar = () =>{
@@ -14,7 +17,6 @@ const Navbar = () =>{
     const [userCart, setUserCart] = useState([]);
     const cart = useSelector((state)=>state.cart.carts);
     const user_cart = useSelector((state)=>state.cart.userCart);
-    console.log("user_cart",user_cart);
 
     useEffect(() => {
         getUserCart(cart);
@@ -25,10 +27,9 @@ const Navbar = () =>{
         return userCart?.products?.reduce((accumulator, item)=> accumulator + item.quantity, 0);
     };
 
-    const getUserCart = (cartItems)=>{
+    const getUserCart = ()=>{
         const logUser = JSON.parse(localStorage.getItem("loggedUserInfo"))
         setLoggedUser(logUser)
-        const userCart2 = cartItems.find((item)=>item.user_id === logUser?.id);
         setUserCart(JSON.parse(localStorage.getItem("userCart")));
     }
 
@@ -39,10 +40,23 @@ const Navbar = () =>{
         redirect('login');
     }
 
+    const onSearch = (value) => console.log(value);
+
+    const {Search} = Input;
+
         return (
         <nav className={styles.navbar}>
             <div className={styles.logodiv}>
                 <Image className={styles.logo} src={Logo} alt={'logo'} />
+            </div>
+            <div className={styles.searchbar}>
+            <Search
+                placeholder="input search text"
+                allowClear
+                enterButton="Search"
+                size="large"
+                onSearch={onSearch}
+            />
             </div>
             
             <ul className={styles.links}>

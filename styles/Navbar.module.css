@@ -9,6 +9,12 @@
     z-index: 3;
 }
 
+.searchbar{
+    width: 600px;
+    margin-left: 100px;
+
+}
+
 .logodiv{
     margin-left: 10px;
     height: 80%;

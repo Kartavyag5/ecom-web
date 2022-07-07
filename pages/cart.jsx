@@ -20,19 +20,26 @@ const CartPage = ({carts, products})=>{
   const [userCart, setUserCart] = useState({});
   const [cartProducts, setCartProducts] = useState([])
 
+  const user_cart = useSelector((state)=>state.cart.userCart)
+
+  // useEffect(() => {
+  //   const local_userCart = JSON.parse(localStorage.getItem('userCart'))
+  //   setUserCart(local_userCart)
+  // }, [ user_cart])
+
   
   const getTotalPrice = () =>{
     return userCart?.products?.reduce((accumulator, item) => accumulator + item.quantity * item.price, 0);
   };
 
-  const user_cart = useSelector((state)=>state.cart.userCart)
+  
 
   useEffect(()=>{
     const loggedInUser = JSON.parse(localStorage.getItem('loggedUserInfo'))
     const local_userCart = JSON.parse(localStorage.getItem('userCart'))
     // const loggedUserCart = carts.find(item => item.user_id === loggedInUser.id)
     setLoggedUser(loggedInUser)
-    setUserCart(local_userCart)
+    setUserCart(user_cart)
     dispatch(setAllCarts(carts));
   },[dispatch, carts, products])
 

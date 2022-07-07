@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 const cartSlice = createSlice({
   name: "cart",
@@ -21,13 +22,17 @@ const cartSlice = createSlice({
             ? { ...item, quantity: ++item.quantity }
             : item
         );
+        state.carts.map((item)=>(item.user_id === state.userCart.user_id) && item.products.push({product_id:action.payload.product.id, quantity:1}) )
         localStorage.setItem("userCart", JSON.stringify(state.userCart));
+        axios.post("http://localhost:3000/userCart", state.userCart).then((response) => {
+        });
         alert("item quantity increase!!");
       } else {
         state.userCart.products.push({
           ...action.payload.product,
           quantity: 1,
         });
+        state.carts.map((item)=>(item.user_id === state.userCart.user_id) && item.products.map((item)=>item.product_id===action.payload.product.id &&{...item, quantity:1}) )
         localStorage.setItem("userCart", JSON.stringify(state.userCart));
         alert("item Added to Cart!!");
       }
@@ -35,7 +40,7 @@ const cartSlice = createSlice({
 
     incrementQuantity: (state, action) => {
       const item = state.userCart.products.find(
-        (item) => item.product_id === action.payload
+        (item) => item.id === action.payload
       );
       item.quantity++;
     },

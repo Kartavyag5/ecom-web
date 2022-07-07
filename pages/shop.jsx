@@ -11,8 +11,9 @@ import { getItems } from '../redux/item.slice';
 const ShopPage = ({products,carts})=>{
     const dispatch = useDispatch()
     const [user, setUser] = useState({});
-    // const [userCart, setUserCart] = useState({});
     const user_cart = useSelector((state)=>state.cart.userCart)
+    console.log("user_cart",user_cart);
+    console.log('user',user);
     
     
     useEffect(() => {
@@ -38,14 +39,9 @@ const ShopPage = ({products,carts})=>{
         }
     }, [carts, products])
 
-    const redirect = (url) =>{
-        window.location.href = url;
-    }
-
     const setCartData = (values) => {
         axios.post("http://localhost:3000/userCart", values).then((response) => {
         });
-        
         dispatch(setUserCart(values))
       };
 
