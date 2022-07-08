@@ -43,6 +43,7 @@ const cartSlice = createSlice({
         (item) => item.id === action.payload
       );
       item.quantity++;
+      localStorage.setItem("userCart", JSON.stringify(state.userCart));
     },
     decrementQuantity: (state, action) => {
       const item = state.userCart.products.find((item) => item.id === action.payload);
@@ -54,11 +55,14 @@ const cartSlice = createSlice({
       } else {
         item.quantity--;
       }
+      localStorage.setItem("userCart", JSON.stringify(state.userCart));
     },
 
     removeFromCart: (state, action) => {
       const index = state.carts.findIndex((item) => item.id === action.payload);
       state.carts.splice(index, 1);
+      state.userCart.products.filter((item)=>item.id != action.payload)
+      localStorage.setItem("userCart", JSON.stringify(state.userCart));
     },
   },
 });

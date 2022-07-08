@@ -14,10 +14,8 @@ const ShopPage = ({products,carts})=>{
     const [searchArr, setSearchArr] = useState([]);
     const user_cart = useSelector((state)=>state.cart.userCart)
     const search_item = useSelector((state)=>state.items.searchValue)
-    console.log("search_item",search_item);
 
-    
-    
+   
     useEffect(() => {
         search_item ? setSearchResult(search_item): setSearchArr([])
         setUser(JSON.parse(localStorage.getItem("loggedUserInfo")));
@@ -36,7 +34,7 @@ const ShopPage = ({products,carts})=>{
                 const cartItem = userCart.products.find(item => item.product_id === product.id)
                 return {...product, quantity: cartItem.quantity}
             })
-            localStorage.setItem('userCart', JSON.stringify({user_id:user.id, products:cartProducts_qauntity}));
+            // localStorage.setItem('userCart', JSON.stringify({user_id:user.id, products:cartProducts_qauntity}));
             setCartData({user_id:user.id, products:cartProducts_qauntity})
             dispatch(setUserCart({user_id:user.id, products:cartProducts_qauntity}))
         }
@@ -50,16 +48,19 @@ const ShopPage = ({products,carts})=>{
 
       const setSearchResult = (search_item)=>{
         const res_arr = products.filter((i)=>i.product.toLowerCase().includes(search_item))
-        console.log("res_arr",res_arr);
         setSearchArr(res_arr);
     }
-    console.log("searchArr",searchArr);
+
 
     return (
         <div className={styles.container}>
             <div>
-                <Link href={"/addProduct"}><button className={styles.button} type='primary'>Add New Product</button></Link>
-                <button className={styles.button} type='danger' onClick={() => dispatch(deleteItem(x.id))}>Delete Item</button>
+                {user?.name ==='admin' &&
+                (<div>
+                    <Link href={"/addProduct"}><button className={styles.button} type='primary'>Add New Product</button></Link>
+                    <button className={styles.button} type='danger' onClick={() => dispatch(deleteItem(x.id))}>Delete Item</button>
+                </div>
+                )}
                 <p className={styles.username}>{user && 'Welcome: '.concat(user?.name)}</p>
             </div>
 

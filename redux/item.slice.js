@@ -16,7 +16,7 @@ const itemSlice = createSlice({
       alert("item removed");
     },
     setSearchValue: (state, action)=>{
-      state.searchValue = action.payload
+      state.searchValue = action.payload;
     }
   },
 });

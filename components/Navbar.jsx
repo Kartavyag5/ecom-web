@@ -43,27 +43,29 @@ const Navbar = () =>{
     }
 
     const onSearch = (value) => {
-        console.log(value);
         dispatch(setSearchValue(value));
 
     }
 
     const {Search} = Input;
-
         return (
         <nav className={styles.navbar}>
             <div className={styles.logodiv}>
                 <Image className={styles.logo} src={Logo} alt={'logo'} />
             </div>
             <div className={styles.searchbar}>
-            <Search
-                placeholder="input search text"
-                allowClear
-                enterButton="Search"
-                size="large"
-                onSearch={onSearch}
-                onChange={onSearch}
-            />
+                {(router.route === '/shop')
+                && (
+                    <Search
+                        placeholder="input search text"
+                        allowClear
+                        enterButton="Search"
+                        size="large"
+                        onSearch={onSearch}
+                        onChange={onSearch}
+                    />
+                )
+            }
             </div>
             
             <ul className={styles.links}>

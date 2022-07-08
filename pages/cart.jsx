@@ -27,19 +27,16 @@ const CartPage = ({carts, products})=>{
   //   setUserCart(local_userCart)
   // }, [ user_cart])
 
-  
   const getTotalPrice = () =>{
     return userCart?.products?.reduce((accumulator, item) => accumulator + item.quantity * item.price, 0);
   };
-
-  
 
   useEffect(()=>{
     const loggedInUser = JSON.parse(localStorage.getItem('loggedUserInfo'))
     const local_userCart = JSON.parse(localStorage.getItem('userCart'))
     // const loggedUserCart = carts.find(item => item.user_id === loggedInUser.id)
     setLoggedUser(loggedInUser)
-    setUserCart(user_cart)
+    setUserCart(local_userCart)
     dispatch(setAllCarts(carts));
   },[dispatch, carts, products])
 
