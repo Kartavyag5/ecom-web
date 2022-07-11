@@ -8,6 +8,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import { getItems } from '../redux/item.slice';
 
+
 const ShopPage = ({products,carts})=>{
     const dispatch = useDispatch()
     const [user, setUser] = useState({});
